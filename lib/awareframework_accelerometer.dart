@@ -9,28 +9,42 @@ class AccelerometerSensor extends AwareSensorCore {
   static const MethodChannel _accelerometerMethod = const MethodChannel('awareframework_accelerometer/method');
   static const EventChannel  _accelerometerStream  = const EventChannel('awareframework_accelerometer/event');
 
-  AccelerometerSensor():this.convenience();
-  AccelerometerSensor.convenience(){
+  /// Init Accelerometer Sensor with AccelerometerSensorConfig
+  AccelerometerSensor(AccelerometerSensorConfig config):this.convenience(config);
+  AccelerometerSensor.convenience(config) : super(config){
+    /// Set sensor method & event channels
     super.setSensorChannels(_accelerometerMethod, _accelerometerStream);
   }
 
-  // AccelerometerSensor.channel(MethodChannel _sampleMethod, EventChannel _sampleStream) : super.channel(_sampleMethod, _sampleStream);
-
-/// overwrite methos and config classes.
-/// ...
-
-  Stream<Map<String,dynamic>> onDataChanged() {
+  /// A sensor observer instance
+  Stream<Map<String,dynamic>> get onDataChanged {
      return super.receiveBroadcastStream("on_data_changed").map((dynamic event) => Map<String,dynamic>.from(event));
   }
-
 }
+
+class AccelerometerSensorConfig extends AwareSensorConfig{
+  int interval = 5;
+  double period = 1.0;
+  double threshold = 0.0;
+
+  AccelerometerSensorConfig();
+
+  @override
+  Map<String, dynamic> toMap() {
+    var map = super.toMap();
+    map['interval'] = interval;
+    map['period'] =   period;
+    map['threshold'] = threshold;
+    return map;
+  }
+}
+
 
 /// Make an AwareWidget
 class AccelerometerCard extends StatefulWidget {
-  AccelerometerCard({Key key, @required this.sensor, this.config}) : super(key: key);
+  AccelerometerCard({Key key, @required this.sensor}) : super(key: key);
 
   AccelerometerSensor sensor;
-  AwareSensorConfig config;
 
   @override
   AccelerometerCardState createState() => new AccelerometerCardState();
@@ -42,36 +56,24 @@ class AccelerometerCardState extends State<AccelerometerCard> {
   @override
   void initState() {
     super.initState();
-    // init sensor
-    if (widget.sensor == null) {
-      widget.sensor = new AccelerometerSensor();
-    }
-    // init config
-    if(widget.config == null){
-      widget.config = AwareSensorConfig();
-    }
     // set observer
-    widget.sensor.onDataChanged().listen((event) {
-      var _result = event;
+    widget.sensor.onDataChanged.listen((event) {
       setState((){
-        if(_result!=null){
-          data = "x:${_result['x']}\ny:${_result['y']}\nz:${_result['z']}\n";
+        if(event!=null){
+          data = "x:${event['x']}\ny:${event['y']}\nz:${event['z']}\n";
         }
       });
     }, onError: (dynamic error) {
-      // print('Received error: ${error.message}');
+        print('Received error: ${error.message}');
     });
-    print(widget.sensor);
   }
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
     return new AwareCard(
       contentWidget: Text(data),
-      title: "Sample",
-      sensor: widget.sensor,
-      sensorConfig: widget.config,
+      title: "Accelerometer",
+      sensor: widget.sensor
     );
   }
 }

@@ -13,23 +13,33 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+  AccelerometerSensor sensor;
+  AccelerometerSensorConfig config;
+
   @override
   void initState() {
     super.initState();
+
+    config = AccelerometerSensorConfig()
+      ..debug = true
+      ..label = "label"
+      ..interval = 30;
+
+    sensor = new AccelerometerSensor(config);
+
   }
 
   @override
   Widget build(BuildContext context) {
-    const MethodChannel _accelerometerMethod = const MethodChannel('awareframework_accelerometer/method');
-    const EventChannel  _accelerometerStream  = const EventChannel('awareframework_accelerometer/event');
-    var sensor = new AccelerometerSensor();
+
 
     return new MaterialApp(
       home: new Scaffold(
           appBar: new AppBar(
             title: const Text('Plugin Example App'),
           ),
-          body: new AccelerometerCard(sensor: sensor, config: AwareSensorConfig(),)
+          body: new AccelerometerCard(sensor: sensor,)
       ),
     );
   }

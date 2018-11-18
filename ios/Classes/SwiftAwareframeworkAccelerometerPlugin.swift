@@ -1,17 +1,33 @@
 import Flutter
 import UIKit
+import SwiftyJSON
 import com_aware_ios_sensor_accelerometer
 import com_aware_ios_sensor_core
 import awareframework_core
 
-public class SwiftAwareframeworkAccelerometerPlugin: AwareFlutterPluginCore, FlutterPlugin, AwareFlutterPluginSensorStartCallHandler, AccelerometerObserver{
-
-    public override init() {
-        super.init()
-        self.startCallEventHandler = self
+public class SwiftAwareframeworkAccelerometerPlugin: AwareFlutterPluginCore, FlutterPlugin, AwareFlutterPluginSensorInitializationHandler, AccelerometerObserver{
+    
+    public func initializeSensor(_ call: FlutterMethodCall, result: @escaping FlutterResult) -> AwareSensor? {
+        if self.sensor == nil {
+            if let config = call.arguments as? Dictionary<String,Any>{
+                let json = JSON.init(config)
+                self.accelerometerSensor = AccelerometerSensor.init(AccelerometerSensor.Config(json))
+            }else{
+                self.accelerometerSensor = AccelerometerSensor.init(AccelerometerSensor.Config())
+            }
+            self.accelerometerSensor?.CONFIG.sensorObserver = self
+            return self.accelerometerSensor
+        }else{
+            return nil
+        }
     }
     
     var accelerometerSensor:AccelerometerSensor?
+    
+    public override init() {
+        super.init()
+        super.initializationCallEventHandler = self
+    }
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         // add own channel
@@ -19,20 +35,10 @@ public class SwiftAwareframeworkAccelerometerPlugin: AwareFlutterPluginCore, Flu
                           instance: SwiftAwareframeworkAccelerometerPlugin(),
                           methodChannelName: "awareframework_accelerometer/method",
                           eventChannelName: "awareframework_accelerometer/event")
+
     }
     
-    public func start(_ call: FlutterMethodCall, result: @escaping FlutterResult) -> AwareSensor? {
-        if self.sensor == nil {
-            self.accelerometerSensor = AccelerometerSensor.init(AccelerometerSensor.Config())
-            self.accelerometerSensor?.CONFIG.sensorObserver = self
-            self.accelerometerSensor?.start()
-            return self.accelerometerSensor
-        }else{
-            return nil
-        }
-        
-    }
-    
+
     public func onDataChanged(data: AccelerometerData) {
         for handler in self.streamHandlers {
             if handler.eventName == "on_data_changed" {
