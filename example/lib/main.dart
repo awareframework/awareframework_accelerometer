@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
     config = AccelerometerSensorConfig()
       ..debug = true
       ..label = "label"
-      ..interval = 30;
+      ..frequency = 100;
 
     sensor = new AccelerometerSensor(config);
 

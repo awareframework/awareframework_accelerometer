@@ -13,7 +13,7 @@ dependencies:
   awareframework_core:
     git:
       url: git://github.com/awareframework/awareframework_core.git
-
+  charts_flutter: ^0.5.0
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
 

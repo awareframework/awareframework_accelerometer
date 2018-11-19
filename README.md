@@ -1,4 +1,4 @@
-# com_aware_flutter_sensor_accelerometer
+# awareframework_accelerometer
 
 The accelerometer measures the acceleration applied to the sensor built-in into the device, including the force of gravity.
 
@@ -57,7 +57,7 @@ void mathod(){
     sensor.start();
     
     /// set observer
-    sensor.onDataChanged().listen((Map<String,dynamic> result){
+    sensor.onDataChanged.listen((Map<String,dynamic> result){
       setState((){
         // Your code here
       });
