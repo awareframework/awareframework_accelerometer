@@ -1,8 +1,8 @@
 import Flutter
 import UIKit
 import SwiftyJSON
-import com_aware_ios_sensor_accelerometer
-import com_aware_ios_sensor_core
+import com_awareframework_ios_sensor_accelerometer
+import com_awareframework_ios_sensor_core
 import awareframework_core
 
 public class SwiftAwareframeworkAccelerometerPlugin: AwareFlutterPluginCore, FlutterPlugin, AwareFlutterPluginSensorInitializationHandler, AccelerometerObserver{
