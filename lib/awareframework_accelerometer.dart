@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:awareframework_core/awareframework_core.dart';
 import 'package:flutter/material.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 
 /// init sensor
 class AccelerometerSensor extends AwareSensorCore {
@@ -65,15 +64,17 @@ class AccelerometerCardState extends State<AccelerometerCard> {
     super.initState();
     // set observer
     widget.sensor.onDataChanged.listen((event) {
-      setState((){
-        if(event!=null){
-          // var date = new DateTime.fromMicrosecondsSinceEpoch(event['timestamp']);
-          print(widget.bufferSize);
-          StreamLineSeriesChart.add(data:event['x'], into:dataLine1, id:"x", buffer: widget.bufferSize);
-          StreamLineSeriesChart.add(data:event['y'], into:dataLine2, id:"y", buffer: widget.bufferSize);
-          StreamLineSeriesChart.add(data:event['z'], into:dataLine3, id:"z", buffer: widget.bufferSize);
-        }
-      });
+      if (mounted) {
+        setState((){
+          if(event!=null){
+            // var date = new DateTime.fromMicrosecondsSinceEpoch(event['timestamp']);
+            print(widget.bufferSize);
+            StreamLineSeriesChart.add(data:event['x'], into:dataLine1, id:"x", buffer: widget.bufferSize);
+            StreamLineSeriesChart.add(data:event['y'], into:dataLine2, id:"y", buffer: widget.bufferSize);
+            StreamLineSeriesChart.add(data:event['z'], into:dataLine3, id:"z", buffer: widget.bufferSize);
+          }
+        });
+      }
     }, onError: (dynamic error) {
         print('Received error: ${error.message}');
     });
