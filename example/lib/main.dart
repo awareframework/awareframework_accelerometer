@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
           appBar: new AppBar(
             title: const Text('Plugin Example App'),
           ),
-          body: new AccelerometerCard(sensor: sensor,)
+          body: new AccelerometerCard(sensor: sensor)
       ),
     );
   }
