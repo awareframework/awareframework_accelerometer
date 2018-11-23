@@ -39,8 +39,8 @@ import 'package:awareframework_core/awareframework_core.dart';
 
 ## Data Representations
 The data representations is different between Android and iOS. Following links provide the information.
-- [Android](https://github.com/awareframework/com.aware.android.sensor.accelerometer)
-- [iOS](https://github.com/awareframework/com.aware.ios.sensor.accelerometer)
+- [Android](https://github.com/awareframework/com.awareframework.android.sensor.accelerometer)
+- [iOS](https://github.com/awareframework/com.awareframework.ios.sensor.accelerometer)
 
 ## Example usage
 ```dart
