@@ -34,7 +34,7 @@ public class SwiftAwareframeworkAccelerometerPlugin: AwareFlutterPluginCore, Flu
         // add own channel
         super.setMethodChannel(with: registrar,
                                instance: instance,
-                               channelNames: ["awareframework_accelerometer/method"]);
+                               channelName: "awareframework_accelerometer/method");
         super.setEventChannels(with: registrar,
                                instance: instance,
                                channelNames: ["awareframework_accelerometer/event"]);
