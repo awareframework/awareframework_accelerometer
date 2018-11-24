@@ -30,11 +30,14 @@ public class SwiftAwareframeworkAccelerometerPlugin: AwareFlutterPluginCore, Flu
     }
     
     public static func register(with registrar: FlutterPluginRegistrar) {
+        let instance = SwiftAwareframeworkAccelerometerPlugin()
         // add own channel
-        super.setChannels(with: registrar,
-                          instance: SwiftAwareframeworkAccelerometerPlugin(),
-                          methodChannelName: "awareframework_accelerometer/method",
-                          eventChannelName: "awareframework_accelerometer/event")
+        super.setMethodChannel(with: registrar,
+                               instance: instance,
+                               channelNames: ["awareframework_accelerometer/method"]);
+        super.setEventChannels(with: registrar,
+                               instance: instance,
+                               channelNames: ["awareframework_accelerometer/event"]);
 
     }
     

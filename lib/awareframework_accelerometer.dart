@@ -13,12 +13,12 @@ class AccelerometerSensor extends AwareSensorCore {
   AccelerometerSensor(AccelerometerSensorConfig config):this.convenience(config);
   AccelerometerSensor.convenience(config) : super(config){
     /// Set sensor method & event channels
-    super.setSensorChannels(_accelerometerMethod, _accelerometerStream);
+    super.setMethodChannel(_accelerometerMethod);
   }
 
   /// A sensor observer instance
-  Stream<Map<String,dynamic>> get onDataChanged {
-     return super.receiveBroadcastStream("on_data_changed").map((dynamic event) => Map<String,dynamic>.from(event));
+  Stream<Map<String,dynamic>> onDataChanged(String id) {
+     return super.getBroadcastStream( _accelerometerStream, "on_data_changed", id).map((dynamic event) => Map<String,dynamic>.from(event));
   }
 }
 
@@ -46,6 +46,7 @@ class AccelerometerCard extends StatefulWidget {
   AccelerometerSensor sensor;
   int bufferSize;
   double hight;
+  StreamSubscription<Map<String, dynamic>> handler;
 
   @override
   AccelerometerCardState createState() => new AccelerometerCardState();
@@ -60,15 +61,12 @@ class AccelerometerCardState extends State<AccelerometerCard> {
 
   @override
   void initState() {
-
     super.initState();
     // set observer
-    widget.sensor.onDataChanged.listen((event) {
+    widget.handler = widget.sensor.onDataChanged("ui").listen((event) {
       if (mounted) {
         setState((){
           if(event!=null){
-            // var date = new DateTime.fromMicrosecondsSinceEpoch(event['timestamp']);
-            print(widget.bufferSize);
             StreamLineSeriesChart.add(data:event['x'], into:dataLine1, id:"x", buffer: widget.bufferSize);
             StreamLineSeriesChart.add(data:event['y'], into:dataLine2, id:"y", buffer: widget.bufferSize);
             StreamLineSeriesChart.add(data:event['z'], into:dataLine3, id:"z", buffer: widget.bufferSize);
@@ -78,7 +76,7 @@ class AccelerometerCardState extends State<AccelerometerCard> {
     }, onError: (dynamic error) {
         print('Received error: ${error.message}');
     });
-    print(widget.sensor);
+    // print(widget.sensor);
   }
 
 
@@ -94,6 +92,13 @@ class AccelerometerCardState extends State<AccelerometerCard> {
       title: "Accelerometer",
       sensor: widget.sensor
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    widget.sensor.cancelBroadcastStream("ui");
+    super.dispose();
   }
 
 }

@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
       ..frequency = 100;
 
     sensor = new AccelerometerSensor(config);
-
+    sensor.start();
   }
 
   @override
