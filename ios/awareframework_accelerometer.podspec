@@ -3,7 +3,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'awareframework_accelerometer'
-  s.version = '0.0.5'
+  s.version = '0.0.6'
   s.summary          = 'A new flutter plugin project.'
   s.description      = <<-DESC
 A new flutter plugin project.
@@ -15,7 +15,7 @@ A new flutter plugin project.
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.dependency 'com.awareframework.ios.sensor.accelerometer'
+  s.dependency 'com.awareframework.ios.sensor.accelerometer', '~>0.2.1'
   s.dependency 'awareframework_core'
   
   s.ios.deployment_target = '10.0'

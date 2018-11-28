@@ -1,6 +1,6 @@
 name: awareframework_accelerometer
 description: A new flutter plugin project.
-version: 0.0.5
+version: 0.0.6
 author:  AWARE Mobile Context Instrumentation Middleware/Framework <yuuki.nishiyama@oulu.fi>
 homepage: http://www.awareframework.com
 
@@ -10,8 +10,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  awareframework_core: ^0.0.8
-#    git:
+  awareframework_core: ^0.0.9
+    #
+#  awareframework_core: #^0.0.8
+#    path: ../awareframework_core
+#     git:
 #      url: git://github.com/awareframework/awareframework_core.git
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
