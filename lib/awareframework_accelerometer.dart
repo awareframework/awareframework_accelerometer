@@ -62,70 +62,70 @@ class AccelerometerSensorConfig extends AwareSensorConfig {
 ///
 class AccelerometerCard extends StatefulWidget { // ignore: must_be_immutable
   AccelerometerCard({Key key, this.sensor,
-                              this.config,
                               this.bufferSize = 299,
                               this.height = 200.0}) : super(key: key);
-
-  final AccelerometerSensorConfig config;
   final int    bufferSize;
   final double height;
-  AccelerometerSensor sensor;
-  AccelerometerCardState cardState;
+  final AccelerometerSensor sensor;
+
+  final List<LineSeriesData> dataLine1 = List<LineSeriesData>();
+  final List<LineSeriesData> dataLine2 = List<LineSeriesData>();
+  final List<LineSeriesData> dataLine3 = List<LineSeriesData>();
+
+//  @override
+//  AccelerometerCardState createState() {
+//    cardState = new AccelerometerCardState();
+//    return cardState;
+//  }
 
   @override
-  AccelerometerCardState createState() {
-    cardState = new AccelerometerCardState();
-    return cardState;
-  }
+  AccelerometerCardState createState() => new AccelerometerCardState();
 
 }
 
 
 class AccelerometerCardState extends State<AccelerometerCard> {
 
-  List<LineSeriesData> dataLine1 = List<LineSeriesData>();
-  List<LineSeriesData> dataLine2 = List<LineSeriesData>();
-  List<LineSeriesData> dataLine3 = List<LineSeriesData>();
-
-  var handler;
-
   @override
   void initState() {
     super.initState();
 
-    if (widget.sensor == null){
-      widget.sensor = AccelerometerSensor(widget.config);
-    }
-
-    widget.sensor.start();
-
-    handler = widget.sensor.onDataChanged.listen((event) {
+    widget.sensor.onDataChanged.listen((event) {
       if (mounted) {
         setState((){
           if(event!=null){
-            StreamLineSeriesChart.add(data:event['x'], into:dataLine1, id:"x", buffer: widget.bufferSize);
-            StreamLineSeriesChart.add(data:event['y'], into:dataLine2, id:"y", buffer: widget.bufferSize);
-            StreamLineSeriesChart.add(data:event['z'], into:dataLine3, id:"z", buffer: widget.bufferSize);
+            StreamLineSeriesChart.add(data:event['x'], into:widget.dataLine1, id:"x", buffer: widget.bufferSize);
+            StreamLineSeriesChart.add(data:event['y'], into:widget.dataLine2, id:"y", buffer: widget.bufferSize);
+            StreamLineSeriesChart.add(data:event['z'], into:widget.dataLine3, id:"z", buffer: widget.bufferSize);
           }
         });
       }
     }, onError: (dynamic error) {
         print('Received error: ${error.message}');
     });
+    print(widget.sensor);
   }
 
   @override
   Widget build(BuildContext context) {
+    var data = StreamLineSeriesChart.createTimeSeriesData(widget.dataLine1, widget.dataLine2, widget.dataLine3);
     return
       new AwareCard(
       contentWidget: SizedBox(
           height: widget.height,
           width: MediaQuery.of(context).size.width * 0.8,
-          child: new StreamLineSeriesChart(StreamLineSeriesChart.createTimeSeriesData(dataLine1, dataLine2, dataLine3)),
+          child: new StreamLineSeriesChart(data),
         ),
       title: "Accelerometer",
       sensor: widget.sensor
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    widget.sensor.cancelAllEventChannels();
+    super.dispose();
   }
 
 }
