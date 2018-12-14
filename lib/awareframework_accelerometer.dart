@@ -52,7 +52,7 @@ class AccelerometerSensor extends AwareSensor {
   static const MethodChannel _accelerometerMethod = const MethodChannel('awareframework_accelerometer/method');
 
   /// Accelerometer Event Channel
-  static const EventChannel  _accelerometerStream = const EventChannel('awareframework_accelerometer/event');
+  // static const EventChannel  _accelerometerStream = const EventChannel('awareframework_accelerometer/event');
 
   static const EventChannel  _onDataChangedStream = const EventChannel('awareframework_accelerometer/event_on_data_changed');
 

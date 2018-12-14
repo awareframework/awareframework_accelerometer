@@ -7,10 +7,11 @@ before_script:
 script:
 - flutter doctor
 - flutter packages get
-- flutter analyze
 - flutter test
 - flutter packages pub publish --dry-run
 cache:
   directories:
-    - $HOME/.pub-cache
-
+  - "$HOME/.pub-cache"
+notifications:
+  slack:
+    secure: hPG5Bw18mBXl0zvHlfake8vlHG1wQv9hqovSLKh9sIhFYIjgtAlSMYULThA2b1SHkSi7Cgejx/ZkL8R21jqoKP53oGVc9ElniTfUoyCjpWpSCy/1jnb9GIoiGBcpjA+QVqtjxoC0UGzcH4tNNsC5HpsmKE8SYhI9fj9vG32cK6/k88yLSAT7w7nf35JtT7hZds7jFSM478xusWlBzAzSBjUztGviFrSo3VeTvJ3glRm6iyg6sgpyyU3V/O6VtIqpgT0nQ5iwv2OEmmF9lMHiIiJfk4Rm0ZjutrtbOMqvXTBaI3gDitEzvu3ir8RAX2OeJN5MiDFfD+EWcm1i/epBDDVC/y8mpJWg42FzBrGohAKNGD/kK3DJkMbJukupkpc9oQaIWUUKsCtWrXLiMo2oYP7cEGPfv1EdC3FNPSg5D0Ku8xphdwKBjjqo7gwrCPHgWa8ypdl2tuwZDk2UPKUGSFM6OyhpJ93xeQD/h/31GmC8qV0tZ0SP98lEv88ENkP28IHBvf9u5WcLr4yiJozkepMfJPS0vqvyTnq8On20IOPp9hK+iYOb/zWHHicgwsYPfkAUrT6Wp9NGfGiAnke0YHZWA0TN5vzEPyrHH569G5ub+OSm3snSXUSfees0bsGGYd4ar70bsp6DgL9JcmrpE+GsEMpdIRkVP1/22gX0OY4=
