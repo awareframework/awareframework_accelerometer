@@ -35,10 +35,10 @@ public class SwiftAwareframeworkAccelerometerPlugin: AwareFlutterPluginCore, Flu
                                channelName: "awareframework_accelerometer/method");
         super.setEventChannels(with: registrar,
                                instance: instance,
-                               channelNames: ["awareframework_accelerometer/event"]);
+                               channelNames: ["awareframework_accelerometer/event",
+                                              "awareframework_accelerometer/event_on_data_changed"]);
 
     }
-    
 
     public func onDataChanged(data: AccelerometerData) {
         for handler in self.streamHandlers {

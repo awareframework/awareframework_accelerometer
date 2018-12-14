@@ -1,5 +1,7 @@
 # awareframework_accelerometer
 
+[![Build Status](https://travis-ci.com/awareframework/awareframework_accelerometer.svg?branch=master)](https://travis-ci.com/awareframework/awareframework_accelerometer)
+
 The accelerometer measures the acceleration applied to the sensor built-in into the device, including the force of gravity.
 
 ## Install the plugin into project
@@ -19,14 +21,15 @@ import 'package:awareframework_core/awareframework_core.dart';
 ### Accelerometer Sensor
 - `start()`
 - `stop()` 
-- `sync(force: Boolean)`
+- `sync(bool force)`
 - `enable()`
 - `disable()`
 - `isEnable()`
+- `setLabel(String label)`
 
 ### Configuration Keys
 - `frequency`: Int: Data samples to collect per second (Hz). (default = 5)
-- `period`: Float: Period to save data in minutes. (default = 1)
+- `period`: Double: Period to save data in minutes. (default = 1)
 - `threshold`: Double: If set, do not record consecutive points if change in value is less than the set value.
 - `enabled`: Boolean Sensor is enabled or not. (default = false)
 - `debug`: Boolean enable/disable logging to Logcat. (default = false)
@@ -50,14 +53,14 @@ var config = AccelerometerSensorConfig()
   ..label = "label";
 
 // init sensor
-var sensor = new AccelerometerSensor(config);
+var sensor = new AccelerometerSensor.init(config);
 
 void mathod(){
     /// start 
     sensor.start();
     
     /// set observer
-    sensor.onDataChanged.listen((Map<String,dynamic> result){
+    sensor.onDataChanged.listen((AccelerometerData data){
       setState((){
         // Your code here
       });

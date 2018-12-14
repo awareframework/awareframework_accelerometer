@@ -27,14 +27,14 @@ class _MyAppState extends State<MyApp> {
       ..frequency = 100;
 
     // init sensor without a context-card
-    sensor = new AccelerometerSensor(config);
+    sensor = new AccelerometerSensor.init(config);
     sensor.start();
     sensor.onDataChanged.listen((data){
       print(data);
     });
 
     // init sensor with card
-    card = new AccelerometerCard(config: config,);
+    card = new AccelerometerCard(sensor: sensor, bufferSize: 299,);
     // card = new AccelerometerCard(sensor: sensor,);
   }
 

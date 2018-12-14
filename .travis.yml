@@ -1,0 +1,16 @@
+os: osx
+language: generic
+osx_image: xcode10.1
+before_script:
+- git clone https://github.com/flutter/flutter.git -b beta
+- export PATH=$PATH:`pwd`/flutter/bin
+script:
+- flutter doctor
+- flutter packages get
+- flutter analyze
+- flutter test
+- flutter packages pub publish --dry-run
+cache:
+  directories:
+    - $HOME/.pub-cache
+
