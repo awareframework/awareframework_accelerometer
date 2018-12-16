@@ -55,7 +55,7 @@ var config = AccelerometerSensorConfig()
 // init sensor
 var sensor = new AccelerometerSensor.init(config);
 
-void mathod(){
+void method(){
     /// start 
     sensor.start();
     
