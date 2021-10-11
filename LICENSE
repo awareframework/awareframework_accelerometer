@@ -1,14 +1,1 @@
-Copyright (c) 2018 AWARE Mobile Context Instrumentation Middleware/Framework (http://www.awareframework.com)
-
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LI
-CENSE-2.0 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
-
-
-Showing All Messages
-:-1: Multiple commands produce '/Users/yuuki/Library/Developer/Xcode/DerivedData/Runner-auyzosyxzcrdjaccszplmtluahyr/Build/Products/Debug-iphoneos/Runner.app/Frameworks/Flutter.framework':
-1) Target 'Runner' has copy command from '/Users/yuuki/Dropbox/oulu/development/DartAwarePackages/awareframework_accelerometer/example/ios/Flutter/Flutter.framework' to '/Users/yuuki/Library/Developer/Xcode/DerivedData/Runner-auyzosyxzcrdjaccszplmtluahyr/Build/Products/Debug-iphoneos/Runner.app/Frameworks/Flutter.framework'
-2) That command depends on command in Target 'Runner': script phase “[CP] Embed Pods Frameworks”
-
-
+TODO: Add your license here.
