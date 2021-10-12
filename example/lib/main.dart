@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:awareframework_accelerometer/awareframework_accelerometer.dart';
-import 'package:awareframework_core/awareframework_core.dart';
 
 void main() => runApp(new MyApp());
 
@@ -22,16 +21,10 @@ class _MyAppState extends State<MyApp> {
     var config = AccelerometerSensorConfig()
       ..debug = true
       ..label = "label"
-      ..frequency = 1;
+      ..frequency = 30;
 
     // // init sensor without a context-card
     widget.sensor = new AccelerometerSensor.init(config);
-    widget.sensor.start();
-    widget.sensor.onDataChanged.listen((data) {
-      setState(() {
-        widget.data = data;
-      });
-    });
 
     // card = new AccelerometerCard(sensor: sensor,);
   }
@@ -48,6 +41,26 @@ class _MyAppState extends State<MyApp> {
             Text("X: ${widget.data.x}"),
             Text("Y: ${widget.data.y}"),
             Text("Z: ${widget.data.z}"),
+            TextButton(
+                onPressed: () {
+                  widget.sensor.start();
+                  widget.sensor.onDataChanged.listen((data) {
+                    setState(() {
+                      widget.data = data;
+                    });
+                  });
+                },
+                child: Text("Start")),
+            TextButton(
+                onPressed: () {
+                  widget.sensor.stop();
+                },
+                child: Text("Stop")),
+            TextButton(
+                onPressed: () {
+                  widget.sensor.sync();
+                },
+                child: Text("Sync")),
           ],
         ),
       ),

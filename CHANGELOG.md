@@ -1,3 +1,8 @@
-## 0.0.1
+## 0.2.0
+* Integrate AWARE-Android Accelerometer
 
-* TODO: Describe initial release.
+## 0.1.0
+* Integrate AWARE-iOS Accelerometer
+
+## 0.0.1
+* First release

@@ -1,6 +1,6 @@
 name: awareframework_accelerometer
 description: A new flutter plugin project.
-version: 0.1.0
+version: 0.2.0
 homepage: https://www.awareframework.com
 
 environment:
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  awareframework_core: "^0.5.0"
+  awareframework_core: "^0.6.0"
 
 dev_dependencies:
   flutter_test:

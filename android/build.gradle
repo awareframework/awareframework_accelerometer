@@ -18,6 +18,8 @@ rootProject.allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://jitpack.io' }
+        maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
     }
 }
 
@@ -31,10 +33,13 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 20
     }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api 'com.github.awareframework:com.awareframework.android.core:master-SNAPSHOT'
+    implementation 'com.github.awareframework:com.awareframework.android.sensor.accelerometer:master-SNAPSHOT'
+    implementation 'com.google.code.gson:gson:2.8.8'
 }

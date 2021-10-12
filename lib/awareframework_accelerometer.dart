@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:awareframework_core/awareframework_core.dart';
-import 'package:flutter/material.dart';
 
 /// The accelerometer measures the acceleration applied to the sensor
 /// built-in into the device, including the force of gravity.
@@ -176,93 +175,5 @@ class AccelerometerData extends AwareData {
       y = data["y"] ?? 0.0;
       z = data["z"] ?? 0.0;
     }
-  }
-}
-
-///
-/// A Card Widget of Accelerometer Sensor
-///
-/// You can generate a Cart Widget by following code.
-/// ```dart
-/// var card = AccelerometerCard(sensor: sensor);
-/// ```
-class AccelerometerCard extends StatefulWidget {
-  AccelerometerCard(
-      {Key? key,
-      required this.sensor,
-      this.bufferSize = 299,
-      this.height = 200.0})
-      : super(key: key);
-  final int bufferSize;
-  final double height;
-  final AccelerometerSensor sensor;
-
-  final List<LineSeriesData> dataLine1 = [];
-  final List<LineSeriesData> dataLine2 = [];
-  final List<LineSeriesData> dataLine3 = [];
-
-  @override
-  AccelerometerCardState createState() => new AccelerometerCardState();
-}
-
-///
-/// A Card State of Accelerometer Sensor
-///
-class AccelerometerCardState extends State<AccelerometerCard> {
-  @override
-  void initState() {
-    super.initState();
-
-    widget.sensor.onDataChanged.listen((data) {
-      if (mounted) {
-        setState(() {
-          updateContent(data);
-        });
-      } else {
-        updateContent(data);
-      }
-    }, onError: (dynamic error) {
-      print('Received error: ${error.message}');
-    });
-    print("${widget.sensor}");
-  }
-
-  void updateContent(AccelerometerData data) {
-    StreamLineSeriesChart.add(
-      data: data.x,
-      into: widget.dataLine1,
-      id: "x",
-      buffer: widget.bufferSize,
-      key: UniqueKey(),
-    );
-    StreamLineSeriesChart.add(
-      data: data.y,
-      into: widget.dataLine2,
-      id: "y",
-      buffer: widget.bufferSize,
-      key: UniqueKey(),
-    );
-    StreamLineSeriesChart.add(
-      data: data.z,
-      into: widget.dataLine3,
-      id: "z",
-      buffer: widget.bufferSize,
-      key: UniqueKey(),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var data = StreamLineSeriesChart.createTimeSeriesData(
-        widget.dataLine1, widget.dataLine2, widget.dataLine3);
-    return AwareCard(
-      contentWidget: SizedBox(
-        height: widget.height,
-        width: MediaQuery.of(context).size.width * 0.8,
-        child: StreamLineSeriesChart(data),
-      ),
-      title: "Accelerometer",
-      sensor: widget.sensor,
-    );
   }
 }
