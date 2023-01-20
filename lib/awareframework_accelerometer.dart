@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:awareframework_core/awareframework_core.dart';
-import 'package:flutter/material.dart';
 
 /// The accelerometer measures the acceleration applied to the sensor
 /// built-in into the device, including the force of gravity.
@@ -47,25 +46,27 @@ import 'package:flutter/material.dart';
 /// var card = AccelerometerCard(sensor: sensor);
 /// ```
 class AccelerometerSensor extends AwareSensor {
-
   /// Accelerometer Method Channel
-  static const MethodChannel _accelerometerMethod = const MethodChannel('awareframework_accelerometer/method');
+  static const MethodChannel _accelerometerMethod =
+      const MethodChannel('awareframework_accelerometer/method');
 
   /// Accelerometer Event Channel
   // static const EventChannel  _accelerometerStream = const EventChannel('awareframework_accelerometer/event');
 
-  static const EventChannel  _onDataChangedStream = const EventChannel('awareframework_accelerometer/event_on_data_changed');
+  static const EventChannel _onDataChangedStream =
+      const EventChannel('awareframework_accelerometer/event_on_data_changed');
 
   static AccelerometerData data = AccelerometerData();
 
-  static StreamController<AccelerometerData> streamController = StreamController<AccelerometerData>();
+  static StreamController<AccelerometerData> streamController =
+      StreamController<AccelerometerData>();
 
   /// Init Accelerometer Sensor without a configuration file
   ///
   /// ```dart
   /// var sensor = AccelerometerSensor.init(null);
   /// ```
-  AccelerometerSensor():this.init(null);
+  AccelerometerSensor() : this.init(null);
 
   /// Init Accelerometer Sensor with AccelerometerSensorConfig
   ///
@@ -77,7 +78,7 @@ class AccelerometerSensor extends AwareSensor {
   ///
   /// var sensor = AccelerometerSensor.init(config);
   /// ```
-  AccelerometerSensor.init(AccelerometerSensorConfig config):super(config){
+  AccelerometerSensor.init(AccelerometerSensorConfig? config) : super(config) {
     super.setMethodChannel(_accelerometerMethod);
   }
 
@@ -101,9 +102,11 @@ class AccelerometerSensor extends AwareSensor {
   @override
   Future<Null> start() {
     // listen data update on sensor itself
-    super.getBroadcastStream( _onDataChangedStream, "on_data_changed").map(
-            (dynamic event) => AccelerometerData.from(Map<String,dynamic>.from(event))
-    ).listen((event){
+    super
+        .getBroadcastStream(_onDataChangedStream, "on_data_changed")
+        .map((dynamic event) =>
+            AccelerometerData.from(Map<String, dynamic>.from(event)))
+        .listen((event) {
       data = event;
       if (!streamController.isClosed) {
         streamController.add(data);
@@ -130,12 +133,11 @@ class AccelerometerSensor extends AwareSensor {
 ///   ..frequency = 100;
 /// ```
 class AccelerometerSensorConfig extends AwareSensorConfig {
-
   /// Data samples to collect per second (Hz). (default = 5)
-  int frequency    = 5;
+  int frequency = 5;
 
   /// Period to save data in minutes. (default = 1.0)
-  double period    = 1.0;
+  double period = 1.0;
 
   /// If set, do not record consecutive points if change in value is less than
   /// the set value.
@@ -147,7 +149,7 @@ class AccelerometerSensorConfig extends AwareSensorConfig {
   Map<String, dynamic> toMap() {
     var map = super.toMap();
     map['frequency'] = frequency;
-    map['period']    = period;
+    map['period'] = period;
     map['threshold'] = threshold;
     return map;
   }
@@ -158,92 +160,18 @@ class AccelerometerSensorConfig extends AwareSensorConfig {
 /// This class converts sensor data that is Map<String,dynamic> format, to a
 /// sensor data object.
 ///
-class AccelerometerData extends AwareData{
-
+class AccelerometerData extends AwareData {
   double x = 0.0;
 
   double y = 0.0;
 
   double z = 0.0;
 
-  AccelerometerData():this.from(null);
+  AccelerometerData() : this.from({});
 
-  AccelerometerData.from(Map<String,dynamic> data):super.from(data) {
-    if (data != null){
-      x = data["x"] ?? 0.0;
-      y = data["y"] ?? 0.0;
-      z = data["z"] ?? 0.0;
-    }
-  }
-}
-
-///
-/// A Card Widget of Accelerometer Sensor
-///
-/// You can generate a Cart Widget by following code.
-/// ```dart
-/// var card = AccelerometerCard(sensor: sensor);
-/// ```
-class AccelerometerCard extends StatefulWidget {
-  AccelerometerCard({Key key, this.sensor,
-                              this.bufferSize = 299,
-                              this.height = 200.0}) : super(key: key);
-  final int    bufferSize;
-  final double height;
-  final AccelerometerSensor sensor;
-
-  final List<LineSeriesData> dataLine1 = List<LineSeriesData>();
-  final List<LineSeriesData> dataLine2 = List<LineSeriesData>();
-  final List<LineSeriesData> dataLine3 = List<LineSeriesData>();
-
-  @override
-  AccelerometerCardState createState() => new AccelerometerCardState();
-
-}
-
-///
-/// A Card State of Accelerometer Sensor
-///
-class AccelerometerCardState extends State<AccelerometerCard> {
-
-  @override
-  void initState() {
-    super.initState();
-
-    widget.sensor.onDataChanged.listen((data) {
-      if (mounted) {
-        setState((){
-          updateContent(data);
-        });
-      }else{
-        updateContent(data);
-      }
-    }, onError: (dynamic error) {
-        print('Received error: ${error.message}');
-    });
-    print("${widget.sensor}");
-  }
-
-  void updateContent(AccelerometerData data){
-    if(data!=null){
-      StreamLineSeriesChart.add(data:data.x, into:widget.dataLine1, id:"x", buffer: widget.bufferSize);
-      StreamLineSeriesChart.add(data:data.y, into:widget.dataLine2, id:"y", buffer: widget.bufferSize);
-      StreamLineSeriesChart.add(data:data.z, into:widget.dataLine3, id:"z", buffer: widget.bufferSize);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var data = StreamLineSeriesChart.createTimeSeriesData(widget.dataLine1, widget.dataLine2, widget.dataLine3);
-    return
-      new AwareCard(
-      contentWidget: SizedBox(
-          height: widget.height,
-          width: MediaQuery.of(context).size.width * 0.8,
-          child: new StreamLineSeriesChart(data),
-        ),
-      title: "Accelerometer",
-      sensor: widget.sensor
-    );
+  AccelerometerData.from(Map<String, dynamic> data) : super(data) {
+    x = data["x"] ?? 0.0;
+    y = data["y"] ?? 0.0;
+    z = data["z"] ?? 0.0;
   }
 }

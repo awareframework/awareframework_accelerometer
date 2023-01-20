@@ -10,7 +10,7 @@ A new flutter plugin project.
                        DESC
   s.homepage         = 'http://www.awareframework.com'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Yuuki Nishiyama' => 'yuuki.nishiyama@oulu.fi' }
+  s.author           = { 'Yuuki Nishiyama' => 'nishiyama@csis.u-tokyo.ac.jp' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
@@ -18,6 +18,8 @@ A new flutter plugin project.
   s.dependency 'com.awareframework.ios.sensor.accelerometer', '~>0.4.1'
   s.dependency 'awareframework_core'
   
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '11.0'
+
+  s.swift_version = '5.0'
 end
 

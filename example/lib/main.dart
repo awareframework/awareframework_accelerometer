@@ -10,12 +10,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   AccelerometerSensor sensor;
   AccelerometerSensorConfig config;
-  AccelerometerCard card;
 
   bool sensorState = true;
+
+  var data = AccelerometerData();
 
   @override
   void initState() {
@@ -29,12 +29,13 @@ class _MyAppState extends State<MyApp> {
     // init sensor without a context-card
     sensor = new AccelerometerSensor.init(config);
     sensor.start();
-    sensor.onDataChanged.listen((data){
+    sensor.onDataChanged.listen((data) {
       print(data);
+      setState(() {
+        this.data = data;
+      });
     });
 
-    // init sensor with card
-    card = new AccelerometerCard(sensor: sensor, bufferSize: 299,);
     // card = new AccelerometerCard(sensor: sensor,);
   }
 
@@ -45,10 +46,7 @@ class _MyAppState extends State<MyApp> {
           appBar: new AppBar(
             title: const Text('Plugin Example App'),
           ),
-          body: card
-      ),
+          body: Text("${data.x} ${data.y} ${data.z}")),
     );
   }
-
-
 }
