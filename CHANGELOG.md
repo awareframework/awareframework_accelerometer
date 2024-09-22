@@ -1,3 +1,6 @@
+## 0.7.0
+* Support awareframework_core 0.7.0
+
 ## 0.2.1
 * Update README
 
